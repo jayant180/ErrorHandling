@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check if file exixts
+      block:
+         - name: get file details
+           stat:
+             path: /etc/hosts
+           register: host_file
+   
+         - name: fail if doesn't exists
+           fail:
+             msg: "File does not exist in system"
+           when: not host_file.stat.exists
+
+      rescue:
+         - name: Rescue message
+           debug:
+              msg: "Required file is missing"
+      always:
+         - name: Final message
+           debug:
+             msg: "File validation completed"

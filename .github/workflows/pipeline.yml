@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run a Script  #You need to install if for the first run 
-        run: ansible-playbook Errorhandle.yml
+        run: ansible-playbook FileExistance.yml
 
       - name: Mail for failure
         if: failure()
