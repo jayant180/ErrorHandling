@@ -1,0 +1,25 @@
+---
+- name: Playbook to install a service using block rescus
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Use block to install service
+      block:
+        - name: Install nginx
+          package:
+             name: nginx
+             state: present
+        
+        - name: Start service
+          service:
+             name: nginx
+             state: restarted
+             enabled: true
+      rescue:
+        - name: Debug Error
+          debug:
+            var: ansible_failed_result['msg']
+      always:
+        - name: Display message
+          debug:
+            msg: "Service installation performed at {{ inventory_hostname }}."
