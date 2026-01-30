@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+jobs:
+  Ansible:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run a Script  #You need to install if for the first run 
+        run: ansible-playbook Errorhandle.yml
+
+      - name: Mail for failure
+        if: failure()
+        run:
+          echo "task failed"
